@@ -494,18 +494,20 @@ strong{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    gap: 0;
-    overflow-x: scroll;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    overflow-x: auto;
     overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
-    padding: 6rem 4rem 1rem 4rem;
+    padding: 6rem 0 1rem 0;
     margin: -2rem 0 0 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-snap-type: x mandatory;
     -webkit-scroll-snap-type: x mandatory;
-    scroll-padding: 0 4rem;
 }
 
 .testimonial-carousel::-webkit-scrollbar {
@@ -516,9 +518,12 @@ strong{
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
     flex: 0 0 auto;
+    min-width: calc(100vw - 8rem);
+    min-width: -webkit-calc(100vw - 8rem);
+    max-width: calc(100vw - 8rem);
+    max-width: -webkit-calc(100vw - 8rem);
     width: calc(100vw - 8rem);
     width: -webkit-calc(100vw - 8rem);
-    max-width: 36rem;
     background-color: #fff;
     border-radius: 1.5rem;
     padding: 8rem 1rem 2rem 1rem;
@@ -529,6 +534,8 @@ strong{
     overflow: visible;
     scroll-snap-align: center;
     -webkit-scroll-snap-align: center;
+    scroll-snap-stop: always;
+    -webkit-scroll-snap-stop: always;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
 }
