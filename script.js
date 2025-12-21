@@ -36,12 +36,12 @@ dots.forEach((dot, index) => {
 
 // Results Carousel Navigation
 const resultsCarousel = document.querySelector('.results-carousel');
-const resultsNextBtn = document.querySelector('.section-results .carousel-arrow.next');
 const resultsPrevBtn = document.querySelector('.section-results .carousel-arrow.prev');
 
 function updateResultsArrows() {
+    if (!resultsPrevBtn) return;
+    
     const scrollLeft = resultsCarousel.scrollLeft;
-    const maxScroll = resultsCarousel.scrollWidth - resultsCarousel.clientWidth;
     
     // Show/hide prev button
     if (scrollLeft > 0) {
@@ -49,24 +49,6 @@ function updateResultsArrows() {
     } else {
         resultsPrevBtn.style.display = 'none';
     }
-    
-    // Show/hide next button
-    if (scrollLeft >= maxScroll - 1) {
-        resultsNextBtn.style.display = 'none';
-    } else {
-        resultsNextBtn.style.display = 'flex';
-    }
-}
-
-if (resultsNextBtn) {
-    resultsNextBtn.addEventListener('click', () => {
-        const scrollAmount = resultsCarousel.offsetWidth;
-        resultsCarousel.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
-        setTimeout(updateResultsArrows, 300);
-    });
 }
 
 if (resultsPrevBtn) {
@@ -80,10 +62,11 @@ if (resultsPrevBtn) {
 }
 
 // Update arrows on scroll
-resultsCarousel.addEventListener('scroll', updateResultsArrows);
-
-// Initialize arrows on page load
-updateResultsArrows();
+if (resultsCarousel) {
+    resultsCarousel.addEventListener('scroll', updateResultsArrows);
+    // Initialize arrows on page load
+    updateResultsArrows();
+}
 
 // Quantity Selector Buttons
 const quantityInput = document.querySelector('.quantity-input');
