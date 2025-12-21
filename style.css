@@ -592,6 +592,8 @@ strong{
     align-items: center;
     justify-content: center;
     transition: background-color 0.3s;
+    touch-action: manipulation;
+    user-select: none;
 }
 
 .testimonial-section .carousel-arrow:hover {
@@ -611,6 +613,8 @@ strong{
     background-color: transparent;
     cursor: pointer;
     transition: background-color 0.3s;
+    touch-action: manipulation;
+    user-select: none;
 }
 
 .testimonial-section .dot.active {
