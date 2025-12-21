@@ -494,7 +494,7 @@ strong{
     overflow-x: scroll;
     overflow-y: visible;
     scroll-behavior: smooth;
-    padding: 6rem 0 1rem 0;
+    padding: 6rem 4rem 1rem 4rem;
     margin: -2rem 0 0 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
