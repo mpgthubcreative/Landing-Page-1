@@ -14,7 +14,8 @@ body{
     line-height: 1.6;
     color: #333;
     font-size: 1.6rem;
-  
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 
@@ -263,7 +264,7 @@ strong{
     transition: background-color 0.3s;
     position: absolute;
     top: 22rem;
-    right: 5rem;
+    left: 5rem;
 }
 
 .results-carousel::-webkit-scrollbar {
@@ -274,8 +275,7 @@ strong{
     display: flex;
     overflow-x: scroll;
     gap: 2rem;
-   
-
+    padding-right: 4rem;
 }   
 
 .results-text{
@@ -427,6 +427,8 @@ strong{
     cursor: pointer;
     padding: 1rem 2rem;
     transition: background-color 0.3s;
+    touch-action: manipulation;
+    user-select: none;
 }
 
 .quantity-btn:hover {
@@ -489,16 +491,20 @@ strong{
 }
 
 .testimonial-carousel {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     gap: 0;
     overflow-x: scroll;
     overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
     padding: 6rem 4rem 1rem 4rem;
     margin: -2rem 0 0 0;
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-type: x mandatory;
     scroll-padding: 0 4rem;
 }
 
@@ -507,8 +513,11 @@ strong{
 }
 
 .testimonial-card {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
     flex: 0 0 auto;
     width: calc(100vw - 8rem);
+    width: -webkit-calc(100vw - 8rem);
     max-width: 36rem;
     background-color: #fff;
     border-radius: 1.5rem;
@@ -519,7 +528,9 @@ strong{
     min-height: 38rem;
     overflow: visible;
     scroll-snap-align: center;
+    -webkit-scroll-snap-align: center;
     box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 
@@ -667,6 +678,7 @@ strong{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    margin-bottom: 3rem;
 }
 
 .gallery-img{
