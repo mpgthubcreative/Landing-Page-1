@@ -1,0 +1,297 @@
+@media (min-width: 1000px){
+
+
+.container{
+    max-width: 100%;
+    margin: 0 auto;
+    /* background-color: aliceblue; */
+}
+
+
+.hero-content{
+    bottom: 15rem;
+
+}
+
+.section-announcement p{
+    color: #fff;
+    font-size: 1.8rem;
+    letter-spacing: .3rem; 
+    text-align: center;
+}
+
+
+/* hero section */
+
+.hero-content-img{
+ top: 3rem;
+ left: 48%;
+ transform: translateX(-50%);
+ width: 15rem;
+
+}
+
+
+.hero-img{
+display: none;
+}
+
+.hero-img-desktop{
+    display: block;
+    width: 100%;
+}
+
+.section-hero h1{
+    font-size: 4rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    font-weight: 200;
+    
+}
+
+.section-hero p{
+    font-size: 1.6rem;
+    letter-spacing: 2.4px;
+    margin-bottom: 1.5rem;
+    font-weight: 200;
+    
+}
+
+
+.section-hero a{
+    width: 15rem;
+}
+
+/* Feature */
+.section-feature h2{
+    font-size: 4rem;
+
+}
+
+.feature-grid-box{
+    display: flex;
+    justify-content: center;
+    gap: 12rem;
+   flex-wrap: wrap;
+   
+}
+
+.feature-text{
+    width: 15rem;
+    text-align: center;
+}
+
+.ingredients-section{
+    grid-template-columns: 1.5fr 1fr;
+    align-items: center;
+   justify-content: center;
+}
+
+.ingredients-content{
+    margin: 0 auto;
+}
+
+.ingredients-content h3{
+    font-size: 4rem;
+    letter-spacing: 1.6px;
+
+}
+
+.ingredients-content p{
+      font-size: 1.6rem;
+    letter-spacing: 2.4px;
+    margin-bottom: 1.5rem;
+    font-weight: 200;
+}
+
+.ingredients-list li {
+    letter-spacing: 1.6px;
+}
+
+/* Results- Section  */
+
+.results-carousel{
+    display: flex;
+    overflow-x: none;
+    justify-content: center;
+    gap: 2rem;
+    padding-right: 4rem;
+}   
+
+.section-results a{
+   width: 15rem;
+   margin: 0 auto;
+  
+}
+
+.results-text h3{
+     font-size: 4rem;
+}
+
+.results-text p{
+    font-size: 1.6rem;
+    letter-spacing: 1.6px;
+    margin-bottom: 3rem;
+    font-weight: 200;
+    width: 100%;
+}
+
+.carousel-img{
+    width:40rem;
+    height: auto;
+}
+
+/* Product Section */
+
+.section-product {
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    padding: 4rem 8rem;
+    width: 130rem;
+    gap: 5rem;
+}
+
+.product-box{
+    order: 2;
+}
+
+.product-name {
+    font-size: 4rem;
+
+
+}
+
+.product-box2{
+    order: 1;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+/* testimonial Section */
+
+.testimonial-section{
+    overflow: none  ;
+    padding-bottom: 7rem;
+}
+
+.testimonial-carousel{
+overflow-x: none;
+    display: flex;
+    justify-content: center;
+  margin: 0 auto;
+  gap: 0;
+}
+
+.testi-text{
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 4rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-section h3{
+    font-size: 4rem;
+}
+
+.carousel-controls {
+    display: none;
+    visibility: hidden;
+    position: absolute;
+    pointer-events: none;
+}
+
+.stars-testimonial{
+    font-size: 3rem;
+
+}
+
+/* Footer */
+
+.footer-payment{
+    display: none;
+}
+
+.footer-payment-desktop{
+    display: inline-block;
+    width: 50rem;
+    height: auto;
+}
+
+.footer-text{
+    color: #fff;
+    font-size: .8rem;
+    letter-spacing: 1.2px;
+}
+
+}
+
+
+
+
+
+
+
+
+
+@media (min-width: 1200px) {
+
+.container{
+    max-width: 100%;
+    margin: 0 auto;
+
+}
+
+.section-announcement p{
+    color: #fff;
+    font-size: 1.8rem;
+    letter-spacing: .3rem; 
+    text-align: center;
+}
+
+
+
+.hero-content-img{
+ top: 3rem;
+ left: 48%;
+ transform: translateX(-50%);
+ width: 15rem;
+
+}
+
+
+.hero-img{
+display: none;
+}
+
+.hero-img-desktop{
+    display: block;
+    width: 100%;
+}
+
+.section-hero h1{
+    font-size: 4rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    font-weight: 200;
+    
+}
+
+
+.hero-content{
+    bottom: 20rem;
+    padding: 0 4rem;
+}
+
+.section-hero a{
+    width: 15rem;
+}
+
+
+
+
+}
+
