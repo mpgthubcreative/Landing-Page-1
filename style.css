@@ -354,7 +354,7 @@ strong{
     display: grid;
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 4rem 8rem;
+    padding: 4rem 4rem;
     margin: 0 auto;
 }
 
