@@ -318,16 +318,27 @@ function saveReviewToFirebase(name, text, rating) {
 
 // Update review count
 function updateReviewCount() {
+    const allReviews = document.querySelectorAll('.review-card');
+    const reviewCount = allReviews.length;
+    
+    // Update reviews section count
     const summaryText = document.querySelector('.summary-text');
     if (summaryText) {
-        const allReviews = document.querySelectorAll('.review-card');
-        summaryText.textContent = `5.0 rating of ${allReviews.length} reviews`;
+        summaryText.textContent = `5.0 rating of ${reviewCount} reviews`;
+    }
+    
+    // Update product header count
+    const headerCount = document.querySelector('.product-review-count');
+    if (headerCount) {
+        headerCount.textContent = `(${reviewCount} review${reviewCount !== 1 ? 's' : ''})`;
     }
 }
 
 // Load reviews when page loads
 if (document.querySelector('.reviews-list')) {
     loadSavedReviews();
+    // Update count immediately for existing HTML reviews
+    updateReviewCount();
 }
 
 // Form submission

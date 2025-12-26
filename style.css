@@ -391,12 +391,12 @@ strong{
     margin-bottom: 1rem;
 }
 
-.stars::after{
+/* .stars::after{
     content: "(4 reviews)";
     color: #696056;
     font-size: 1.2rem;
     margin-left: .5rem;
-}
+} */
 
 
 .product-price {
@@ -825,14 +825,18 @@ strong{
     color: #F5C518;
     font-size: 3rem;
     letter-spacing: 0.3rem;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
     margin-top: -1rem;
 }
 
-.stars.product-page::after{
-    content: "(4 reviews)";
+.product-review-count {
     color: #696056;
     font-size: 1.2rem;
-    margin-left: .5rem;
 }
 
 
@@ -923,6 +927,10 @@ strong{
     margin-top: 1rem;
     text-align: start;
     
+}
+
+.ionicon{
+    color: #696056;
 }
 
 .hidden-box {
@@ -1104,18 +1112,12 @@ strong{
     color: #d32f2f;
 }
 
-/* OPTION A & C: Show delete buttons in admin mode */
+/* OPTION C: Admin mode - only admins can delete reviews */
 body.admin-mode .btn-delete-review {
-    display: block
-
-}
-
-/* OPTION B: Show delete buttons only on your reviews */
-.review-card[data-can-delete="true"] .btn-delete-review {
     display: block;
 }
 
-/* Admin Toggle Controls - OPTION C */
+/* Admin Toggle Controls */
 .admin-controls {
     margin-bottom: 2rem;
     padding: 1.5rem;
