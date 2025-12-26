@@ -1,3 +1,27 @@
+// ========== FIREBASE CONFIGURATION ==========
+const firebaseConfig = {
+    apiKey: "AIzaSyDrQgBcO6aKV8SXNmA2CVF-Tw4K4PXaQdM",
+    authDomain: "landing-page-1-fdfb7.firebaseapp.com",
+    projectId: "landing-page-1-fdfb7",
+    storageBucket: "landing-page-1-fdfb7.firebasestorage.app",
+    messagingSenderId: "318369342738",
+    appId: "1:318369342738:web:3c790ea7357374e2a97fcb",
+    measurementId: "G-7GP5BCY507"
+};
+
+// Initialize Firebase
+let db = null;
+if (typeof firebase !== 'undefined') {
+    try {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log('Firebase initialized successfully');
+    } catch (error) {
+        console.error('Firebase initialization error:', error);
+    }
+}
+// ============================================
+
 // Testimonial Carousel Navigation
 let currentIndex = 0;
 const carousel = document.querySelector('.testimonial-carousel');
@@ -204,6 +228,108 @@ function updateStars(rating) {
     });
 }
 
+// Load saved reviews from Firebase
+function loadSavedReviews() {
+    if (!db) {
+        console.log('Firebase not initialized, reviews will not load');
+        return;
+    }
+    
+    const reviewsList = document.querySelector('.reviews-list');
+    if (!reviewsList) return;
+    
+    // Get reviews from Firestore, ordered by timestamp (newest first)
+    db.collection('reviews')
+        .orderBy('timestamp', 'desc')
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                const review = doc.data();
+                createReviewCard(review.name, review.text, review.rating, doc.id);
+            });
+            updateReviewCount();
+        })
+        .catch((error) => {
+            console.error('Error loading reviews:', error);
+        });
+}
+
+// Helper function to create review card
+function createReviewCard(name, text, rating, reviewId) {
+    const reviewsList = document.querySelector('.reviews-list');
+    const newReview = document.createElement('div');
+    newReview.className = 'review-card';
+    newReview.dataset.canDelete = 'true';
+    newReview.dataset.reviewId = reviewId; // Store Firebase document ID
+    newReview.innerHTML = `
+        <button class="btn-delete-review">&times;</button>
+        <h4 class="review-customer-name">${name}</h4>
+        <p class="review-verified">verified customer</p>
+        <p class="review-text">${text}</p>
+        <div class="review-rating">
+            <span class="review-stars">${'★'.repeat(rating)}${'☆'.repeat(5 - rating)}</span>
+            <span class="review-score">${rating}.0</span>
+        </div>
+    `;
+    
+    reviewsList.insertBefore(newReview, reviewsList.firstChild);
+    
+    // Attach delete handler
+    const deleteBtn = newReview.querySelector('.btn-delete-review');
+    deleteBtn.addEventListener('click', function() {
+        deleteReview(newReview);
+    });
+}
+
+// Save review to Firebase (called when submitting new review)
+function saveReviewToFirebase(name, text, rating) {
+    if (!db) {
+        console.error('Firebase not initialized');
+        alert('Review system not available. Please check Firebase configuration.');
+        return;
+    }
+    
+    db.collection('reviews').add({
+        name: name,
+        text: text,
+        rating: rating,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then((docRef) => {
+        console.log('Review added with ID:', docRef.id);
+        // Create the review card with the new ID
+        createReviewCard(name, text, rating, docRef.id);
+        updateReviewCount();
+        
+        // Show success message
+        alert('Thank you for your review! Your review has been posted.');
+        
+        // Close modal and reset
+        reviewModal.classList.remove('active');
+        reviewForm.reset();
+        selectedRating = 0;
+        updateStars(0);
+    })
+    .catch((error) => {
+        console.error('Error adding review:', error);
+        alert('Failed to post review. Please try again.');
+    });
+}
+
+// Update review count
+function updateReviewCount() {
+    const summaryText = document.querySelector('.summary-text');
+    if (summaryText) {
+        const allReviews = document.querySelectorAll('.review-card');
+        summaryText.textContent = `5.0 rating of ${allReviews.length} reviews`;
+    }
+}
+
+// Load reviews when page loads
+if (document.querySelector('.reviews-list')) {
+    loadSavedReviews();
+}
+
 // Form submission
 const reviewForm = document.querySelector('.review-form');
 if (reviewForm) {
@@ -219,63 +345,37 @@ if (reviewForm) {
         const name = reviewForm.querySelector('input[type="text"]').value;
         const reviewText = reviewForm.querySelector('textarea').value;
         
-        // Create new review card
-        const reviewsList = document.querySelector('.reviews-list');
-        const newReview = document.createElement('div');
-        newReview.className = 'review-card';
-        newReview.dataset.canDelete = 'true'; // OPTION B: Mark as deletable
-        newReview.innerHTML = `
-            <button class="btn-delete-review">&times;</button>
-            <h4 class="review-customer-name">${name}</h4>
-            <p class="review-verified">verified customer</p>
-            <p class="review-text">${reviewText}</p>
-            <div class="review-rating">
-                <span class="review-stars">${'★'.repeat(selectedRating)}${'☆'.repeat(5 - selectedRating)}</span>
-                <span class="review-score">${selectedRating}.0</span>
-            </div>
-        `;
-        
-        // Add to top of reviews list
-        reviewsList.insertBefore(newReview, reviewsList.firstChild);
-        
-        // Attach delete handler to new review
-        const deleteBtn = newReview.querySelector('.btn-delete-review');
-        deleteBtn.addEventListener('click', function() {
-            deleteReview(newReview);
-        });
-        
-        // Update review count
-        const summaryText = document.querySelector('.summary-text');
-        if (summaryText) {
-            const currentCount = parseInt(summaryText.textContent.match(/\d+/)[0]);
-            const newCount = currentCount + 1;
-            summaryText.textContent = `5.0 rating of ${newCount} reviews`;
-        }
-        
-        // Show success message
-        alert('Thank you for your review! Your review has been posted.');
-        
-        // Close modal and reset
-        reviewModal.classList.remove('active');
-        reviewForm.reset();
-        selectedRating = 0;
-        updateStars(0);
+        // Save to Firebase
+        saveReviewToFirebase(name, reviewText, selectedRating);
     });
 }
 
 // Delete Review Function
 function deleteReview(reviewCard) {
-    if (confirm('Are you sure you want to delete this review?')) {
-        reviewCard.remove();
-        
-        // Update review count
-        const summaryText = document.querySelector('.summary-text');
-        if (summaryText) {
-            const currentCount = parseInt(summaryText.textContent.match(/\d+/)[0]);
-            const newCount = Math.max(0, currentCount - 1);
-            summaryText.textContent = `5.0 rating of ${newCount} reviews`;
-        }
+    if (!confirm('Are you sure you want to delete this review?')) {
+        return;
     }
+    
+    const reviewId = reviewCard.dataset.reviewId;
+    
+    if (!db || !reviewId) {
+        // Fallback for local-only reviews or if Firebase isn't configured
+        reviewCard.remove();
+        updateReviewCount();
+        return;
+    }
+    
+    // Delete from Firebase
+    db.collection('reviews').doc(reviewId).delete()
+        .then(() => {
+            console.log('Review deleted from Firebase');
+            reviewCard.remove();
+            updateReviewCount();
+        })
+        .catch((error) => {
+            console.error('Error deleting review:', error);
+            alert('Failed to delete review. Please try again.');
+        });
 }
 
 // Add delete handlers to existing reviews
