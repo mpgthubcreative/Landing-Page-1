@@ -931,18 +931,23 @@ strong{
 
 .ionicon{
     color: #696056;
+
 }
 
 .hidden-box {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
+
 }
 
 .hidden-box.active {
     max-height: 1000px;
 
 }
+
+.btn-productdescription{
+    cursor: pointer;}
 
 .pd-text{
     margin-bottom: 1rem;
@@ -1008,7 +1013,13 @@ strong{
 .divider{
     display: flex;
     flex-direction: column;
-    
+   
+}
+
+.review-header,.reviews-rating-summary{
+text-align: center;
+padding-top: 2rem;
+
 }
 .review-product-page {
     padding: 4rem 2rem;

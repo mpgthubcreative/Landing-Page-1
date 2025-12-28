@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
     
      <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -19,8 +16,8 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <link rel="stylesheet" href="./style.css?v=4">
     <link rel="stylesheet" href="./query.css?v=4" >
@@ -31,9 +28,8 @@
 </head>
 <body>
 
-    <div class="container">
+    <div class="container product-page">
 
-    
         
     <div class="bottom-line"> 
     
@@ -50,9 +46,10 @@
     </header>
 
     
-     </div>
+ 
+    
 
-         <section class="section-product product-page">
+    <section class="section-product product-page">
 
         <div class="product-box product-page">
         <img class="product-img product-page main-product-img" src="./new assets-20251226T112137Z-3-001/new assets/mobile new/product-image-main.jpg" alt="">
@@ -70,8 +67,10 @@
             
         </div>
         </div>
+       
+        <div class="divider-product-page">
 
-      
+
         <div class="product-box product-page">
         <div class="product-rating product-page">
             <h2 class="product-name product-page">Oh Glow Ever Serum</h2>
@@ -97,8 +96,9 @@
         <div class="btn-product">
          <a href="#" class="product-btn">Add to Cart</a>
         </div>
+        </div>
 
-            <div class="feature-grid-box product-page">
+        <div class="feature-grid-box product-page">
         <div class="feature-box product-page">
             <img class="feature-img product-page" src="./Mobile Assets-20251219T113906Z-3-001/Mobile Assets/why-choose-icon-clean-ingredients.png" alt=""/>
             <p class="feature-text product-page">Clean Ingredients</p>
@@ -171,10 +171,10 @@
                         <p>Boosts hydration while soothing and protecting the skin, leaving it soft and resilient.</p>
                     </div>
                 </div>
+                </div> 
                 </div>
-  
+    </section>        
 
-    </section>
 
 
     <section class="section-results product-page">
@@ -182,17 +182,16 @@
 
         <div class="results-text product-page">
         <h3 class="results-header product-page">Real People, Real Results</h3>
-        <p class="results-text product-page">Check out these before and after. See results in just 7 days.</p>
+        <p class="results-text product-page text">Check out these before and after. See results in just 7 days.</p>
         </div>
 
         <div class="results-carousel product-page">
 
-            <img class="carousel-img product-page" src="./Desktop Assets-20251219T113908Z-3-001/Desktop Assets/real-people-image1.jpg" alt=""/>
+            <img class="carousel-img product-page" src="./new assets-20251226T112137Z-3-001/new assets/desktop new/real-people-image1.jpg" alt=""/>
 
-            <img class="carousel-img product-page" src="./Desktop Assets-20251219T113908Z-3-001/Desktop Assets/real-people-image2.jpg" alt=""/>
+            <img class="carousel-img product-page" src="./new assets-20251226T112137Z-3-001/new assets/desktop new/real-people-image2.jpg" alt=""/>
 
-            <img class="carousel-img product-page" src="./Desktop Assets-20251219T113908Z-3-001/Desktop Assets/real-people-image3.jpg" alt=""/>
-
+            <img class="carousel-img product-page" src="./new assets-20251226T112137Z-3-001/new assets/desktop new/real-people-image3.jpg" alt=""/>
         </div>
 
          <div class="carousel-arrows results product-page">
@@ -201,8 +200,9 @@
 
     </section>
 
-    <section class="review-product-page">
 
+
+       
         <div class="divider">
         <h2 class="review-header">Customer Reviews</h2>
         
@@ -218,7 +218,7 @@
             <div class="summary-stars">★★★★★</div>
             <p class="summary-text">5.0 rating of 4 reviews</p>
         </div>
-        </div>
+      
         
         <button class="btn-write-review">WRITE A REVIEW</button>
         
@@ -230,6 +230,8 @@
                 <option value="rating">Highest Rating</option>
             </select>
         </div>
+    
+          </div>
         
         <div class="reviews-list">
             <!-- Review 1 -->
