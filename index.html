@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Glow Within - Minimalist skincare for natural radiance. Shop Oh Glow Ever Serum with hyaluronic acid, niacinamide, and centella asiatica for hydrated, glowing skin.">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -24,6 +25,7 @@
 
     <div class="container">
 
+    <main>
     <section class="section-announcement">
     <p>Free shipping on all orders over $150!</p>
 
@@ -157,9 +159,9 @@
         <div class="quantity-selector">
             <label class="quantity-label" for="quantity-input">QUANTITY</label>
             <div class="quantity-controls">
-                <button class="quantity-btn minus">-</button>
-                <input type="number" id="quantity-input" class="quantity-input" value="1" min="1">
-                <button class="quantity-btn plus">+</button>
+                <button class="quantity-btn minus" aria-label="Decrease quantity">-</button>
+                <input type="number" id="quantity-input" class="quantity-input" value="1" min="1" aria-label="Product quantity">
+                <button class="quantity-btn plus" aria-label="Increase quantity">+</button>
             </div>
 
 
@@ -204,8 +206,8 @@
 
         <div class="carousel-controls">
             <div class="carousel-arrows">
-                <button class="carousel-arrow prev">‹</button>
-                <button class="carousel-arrow next">›</button>
+                <button class="carousel-arrow prev" aria-label="Previous testimonial">‹</button>
+                <button class="carousel-arrow next" aria-label="Next testimonial">›</button>
             </div>
             <div class="carousel-dots">
                 <span class="dot active"></span>
@@ -233,6 +235,7 @@
 
         </div>
     </section> -->
+    </main>
 
     <footer class="section-footer">
        <a class="footer-logo-link" href="#"><img class="footer-logo" src="./Mobile Assets-20251219T113906Z-3-001/Mobile Assets/footer-logo.png" alt="Glow within logo"></a>
