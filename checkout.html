@@ -99,14 +99,27 @@
                 <button class="tab-btn" data-tab="payment">Payment</button>
             </div>
 
+            <!-- Netlify Form -->
+            <form name="checkout-order" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="checkoutForm">
+                <!-- Hidden fields for Netlify -->
+                <input type="hidden" name="form-name" value="checkout-order">
+                <input type="hidden" name="bot-field">
+                <input type="hidden" name="product-name" id="hidden-product-name">
+                <input type="hidden" name="quantity" id="hidden-quantity">
+                <input type="hidden" name="subtotal" id="hidden-subtotal">
+                <input type="hidden" name="shipping" id="hidden-shipping" value="6.00">
+                <input type="hidden" name="total" id="hidden-total">
+                <input type="hidden" name="full-address" id="hidden-address">
+                <input type="hidden" name="payment-method" id="hidden-payment-method">
+
             <!-- Contact Section -->
             <div class="form-group-section">
                 <h3 class="section-heading">CONTACT</h3>
                 <div class="form-group">
-                    <input type="email" id="email" placeholder="Email" class="form-input" required>
+                    <input type="email" id="email" name="email" placeholder="Email" class="form-input" required>
                 </div>
                 <div class="form-group checkbox-group">
-                    <input type="checkbox" id="emailOffers" class="form-checkbox">
+                    <input type="checkbox" id="emailOffers" name="emailOffers" class="form-checkbox">
                     <label for="emailOffers">Email me with news and offers</label>
                 </div>
             </div>
@@ -116,7 +129,7 @@
                 <h3 class="section-heading">SHIPPING ADDRESS</h3>
                 
                 <div class="form-group">
-                    <select id="country" class="form-input form-select" required>
+                    <select id="country" name="country" class="form-input form-select" required>
                         <option value="">Country/Region</option>
                         <option value="Philippines" selected>Philippines</option>
                     </select>
@@ -124,30 +137,30 @@
 
                 <div class="form-row">
                     <div class="form-group half">
-                        <input type="text" id="firstName" placeholder="First Name" class="form-input" required>
+                        <input type="text" id="firstName" name="firstName" placeholder="First Name" class="form-input" required>
                     </div>
                     <div class="form-group half">
-                        <input type="text" id="lastName" placeholder="Last Name" class="form-input" required>
+                        <input type="text" id="lastName" name="lastName" placeholder="Last Name" class="form-input" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="address" placeholder="Address" class="form-input" required>
-                    <button class="location-btn" aria-label="Use current location">
+                    <input type="text" id="address" name="address" placeholder="Address" class="form-input" required>
+                    <button class="location-btn" type="button" aria-label="Use current location">
                         <ion-icon name="locate-outline"></ion-icon>
                     </button>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="apartment" placeholder="Apartment, suite, etc. (optional)" class="form-input">
+                    <input type="text" id="apartment" name="apartment" placeholder="Apartment, suite, etc. (optional)" class="form-input">
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="city" placeholder="City" class="form-input" required>
+                    <input type="text" id="city" name="city" placeholder="City" class="form-input" required>
                 </div>
 
                 <div class="form-group">
-                    <select id="province" class="form-input form-select" required>
+                    <select id="province" name="province" class="form-input form-select" required>
                         <option value="">Province</option>
                         <option value="Metro Manila">Metro Manila</option>
                         <option value="Cebu">Cebu</option>
@@ -156,20 +169,20 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="text" id="postalCode" placeholder="Postal Code" class="form-input" required>
+                    <input type="text" id="postalCode" name="postalCode" placeholder="Postal Code" class="form-input" required>
                 </div>
 
                 <div class="form-group">
                     <div class="phone-input-group">
-                        <select class="phone-country-code">
+                        <select class="phone-country-code" name="countryCode">
                             <option value="+63" selected>🇵🇭 +63</option>
                         </select>
-                        <input type="tel" id="phone" placeholder="Phone" class="form-input phone-number" required>
+                        <input type="tel" id="phone" name="phone" placeholder="Phone" class="form-input phone-number" required>
                     </div>
                 </div>
 
                 <div class="form-group checkbox-group">
-                    <input type="checkbox" id="saveInfo" class="form-checkbox">
+                    <input type="checkbox" id="saveInfo" name="textOffers" class="form-checkbox">
                     <label for="saveInfo">Text me with news and offers</label>
                 </div>
             </div>
@@ -211,8 +224,9 @@
                     </label>
                 </div>
             </div>
+            </form>
 
-            <button class="btn-checkout-primary" onclick="proceedToPayment()">PROCEED TO PAYMENT</button>
+            <button class="btn-checkout-primary" type="button" onclick="proceedToPayment()">PROCEED TO PAYMENT</button>
             
             <div class="form-footer">
                 <p class="return-link" onclick="goToStep(1)">« Return to previous</p>
@@ -413,12 +427,20 @@
             document.querySelector('.review-email-display').textContent = email;
             document.querySelector('.review-address-display').textContent = fullAddress;
 
-            // Get current totals from information page
+            // Get current totals from cart
             const qty = parseInt(document.querySelector('.qty-input').value);
             const pricePerItem = 45;
             const subtotal = qty * pricePerItem;
             const shipping = 6;
             const total = subtotal + shipping;
+
+            // Populate hidden fields for Netlify form submission
+            document.getElementById('hidden-product-name').value = 'Oh Glow Ever Serum';
+            document.getElementById('hidden-quantity').value = qty;
+            document.getElementById('hidden-subtotal').value = subtotal.toFixed(2);
+            document.getElementById('hidden-total').value = total.toFixed(2);
+            document.getElementById('hidden-address').value = fullAddress;
+            document.getElementById('hidden-payment-method').value = paymentLabel;
 
             // Update payment section order summary with correct totals
             const paymentSection = document.querySelector('.payment-section');
@@ -453,15 +475,32 @@
         }
 
         // Submit Order
-        function submitOrder() {
-            // Hide header logo on thank you page
-            const header = document.querySelector('.checkout-header');
-            if (header) {
-                header.style.display = 'none';
-            }
+        async function submitOrder() {
+            // Get the form
+            const form = document.getElementById('checkoutForm');
+            
+            // Submit form to Netlify
+            try {
+                const formData = new FormData(form);
+                
+                await fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(formData).toString()
+                });
+                
+                // Hide header logo on thank you page
+                const header = document.querySelector('.checkout-header');
+                if (header) {
+                    header.style.display = 'none';
+                }
 
-            // Show thank you page
-            goToStep(4);
+                // Show thank you page
+                goToStep(4);
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('There was an error submitting your order. Please try again.');
+            }
         }
 
         // Quantity Controls
