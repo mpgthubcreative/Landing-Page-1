@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Glow Within</title>
+    <link rel="stylesheet" href="./style.css?v=4">
+    <link rel="stylesheet" href="./query.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+    
+    <div class="container checkout-page">
+
+        <!-- Header with Logo -->
+        <header class="checkout-header">
+            <a href="./index.html" title="Go to home page">
+                <img class="checkout-logo" src="./Product Mobile Assets-20251226T071926Z-3-001/Product Mobile Assets/top-logo-brown.png" alt="Glow Within Logo">
+            </a>
+        </header>
+
+        <!-- Cart View (Step 1) -->
+        <section class="checkout-section cart-section active-section">
+            <div class="cart-header">
+                <h2 class="checkout-title">YOUR CART</h2>
+                <button class="btn-close" aria-label="Close">×</button>
+            </div>
+
+            <div class="cart-items">
+                <div class="cart-item">
+                    <img src="./checkout page/product-image-main.jpg" alt="Oh Glow Ever Serum" class="cart-item-img">
+                    <div class="cart-item-info">
+                        <h3 class="cart-item-name">Oh Glow Ever Serum</h3>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn minus">-</button>
+                            <input type="number" value="1" min="1" class="qty-input" readonly>
+                            <button class="qty-btn plus">+</button>
+                        </div>
+                    </div>
+                    <p class="cart-item-price">$45.00</p>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span class="subtotal-amount">$45.00</span>
+                </div>
+                <p class="shipping-note">*Shipping, taxes, and discounts calculated at checkout</p>
+            </div>
+
+            <button class="btn-checkout-primary" onclick="goToStep(2)">CHECKOUT</button>
+        </section>
+
+        <!-- Checkout Form (Step 2) -->
+        <section class="checkout-section form-section">
+            <div class="order-summary-toggle">
+                <div class="order-summary-header" onclick="toggleOrderSummary()">
+                    <span>Order Summary <ion-icon name="chevron-down-outline" class="chevron-icon"></ion-icon></span>
+                    <span class="order-total">$51.00</span>
+                </div>
+                <div class="order-summary-content">
+                    <div class="order-item">
+                        <img src="./checkout page/product-image-main.jpg" alt="Oh Glow Ever Serum" class="order-item-img">
+                        <div class="order-item-details">
+                            <p class="order-item-name">Oh Glow Ever Serum</p>
+                        </div>
+                        <p class="order-item-price">$45.00</p>
+                    </div>
+                    <div class="order-discount">
+                        <input type="text" placeholder="Discount code or gift card" class="discount-input">
+                        <button class="btn-apply">APPLY</button>
+                    </div>
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span class="subtotal-value">$45.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Shipping</span>
+                            <span class="shipping-value">$6.00</span>
+                        </div>
+                        <div class="total-row total-final">
+                            <span>TOTAL</span>
+                            <span class="total-value">$51.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="checkout-tabs">
+                <button class="tab-btn" data-tab="cart">Cart</button>
+                <span class="tab-separator">›</span>
+                <button class="tab-btn active" data-tab="info">Information</button>
+                <span class="tab-separator">›</span>
+                <button class="tab-btn" data-tab="payment">Payment</button>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="form-group-section">
+                <h3 class="section-heading">CONTACT</h3>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" class="form-input" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="emailOffers" class="form-checkbox">
+                    <label for="emailOffers">Email me with news and offers</label>
+                </div>
+            </div>
+
+            <!-- Shipping Address Section -->
+            <div class="form-group-section">
+                <h3 class="section-heading">SHIPPING ADDRESS</h3>
+                
+                <div class="form-group">
+                    <select id="country" class="form-input form-select" required>
+                        <option value="">Country/Region</option>
+                        <option value="Philippines" selected>Philippines</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <input type="text" id="firstName" placeholder="First Name" class="form-input" required>
+                    </div>
+                    <div class="form-group half">
+                        <input type="text" id="lastName" placeholder="Last Name" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="address" placeholder="Address" class="form-input" required>
+                    <button class="location-btn" aria-label="Use current location">
+                        <ion-icon name="locate-outline"></ion-icon>
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="apartment" placeholder="Apartment, suite, etc. (optional)" class="form-input">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="city" placeholder="City" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <select id="province" class="form-input form-select" required>
+                        <option value="">Province</option>
+                        <option value="Metro Manila">Metro Manila</option>
+                        <option value="Cebu">Cebu</option>
+                        <option value="Davao">Davao</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" id="postalCode" placeholder="Postal Code" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="phone-input-group">
+                        <select class="phone-country-code">
+                            <option value="+63" selected>🇵🇭 +63</option>
+                        </select>
+                        <input type="tel" id="phone" placeholder="Phone" class="form-input phone-number" required>
+                    </div>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="saveInfo" class="form-checkbox">
+                    <label for="saveInfo">Text me with news and offers</label>
+                </div>
+            </div>
+
+            <!-- Payment Method Section -->
+            <div class="form-group-section">
+                <h3 class="section-heading">PAYMENT METHOD</h3>
+                
+                <div class="payment-methods">
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="gcash" checked>
+                        <span class="payment-label">
+                            <span>GCash</span>
+                            <span class="payment-logo payment-logo-gcash"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="maya">
+                        <span class="payment-label">
+                            <span>Maya</span>
+                            <span class="payment-logo payment-logo-maya"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="paypal">
+                        <span class="payment-label">
+                            <span>Paypal</span>
+                            <span class="payment-logo payment-logo-paypal"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment" value="bank">
+                        <span class="payment-label">
+                            <span>Bank Transfer</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn-checkout-primary" onclick="proceedToPayment()">PROCEED TO PAYMENT</button>
+            
+            <div class="form-footer">
+                <p class="return-link" onclick="goToStep(1)">« Return to previous</p>
+                <p class="privacy-text">By continuing, you agree to the <a href="#">Terms of Service</a> and acknowledge the <a href="#">Privacy Policy</a></p>
+            </div>
+        </section>
+
+        <!-- Payment Review Section (Step 3) -->
+        <section class="checkout-section payment-section">
+            <!-- Order Summary Toggle -->
+            <div class="order-summary-toggle">
+                <div class="order-summary-header" onclick="toggleOrderSummary()">
+                    <span>Order Summary <ion-icon name="chevron-down-outline" class="chevron-icon"></ion-icon></span>
+                    <span class="order-total">$51.00</span>
+                </div>
+                <div class="order-summary-content show">
+                    <div class="order-item">
+                        <img src="./checkout page/product-image-main.jpg" alt="Oh Glow Ever Serum" class="order-item-img">
+                        <div class="order-item-details">
+                            <p class="order-item-name">Oh Glow Ever Serum</p>
+                        </div>
+                        <p class="order-item-price">$45.00</p>
+                    </div>
+                    <div class="order-discount">
+                        <input type="text" placeholder="Discount code or gift card" class="discount-input">
+                        <button class="btn-apply">APPLY</button>
+                    </div>
+                    <div class="order-totals">
+                        <div class="total-row">
+                            <span>Subtotal</span>
+                            <span class="subtotal-value">$45.00</span>
+                        </div>
+                        <div class="total-row">
+                            <span>Shipping</span>
+                            <span class="shipping-value">$6.00</span>
+                        </div>
+                        <div class="total-row total-final">
+                            <span>TOTAL</span>
+                            <span class="total-value">$51.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="checkout-tabs">
+                <button class="tab-btn" data-tab="cart">Cart</button>
+                <span class="tab-separator">›</span>
+                <button class="tab-btn" data-tab="info">Information</button>
+                <span class="tab-separator">›</span>
+                <button class="tab-btn active" data-tab="payment">Payment</button>
+            </div>
+
+            <!-- Review Information -->
+            <div class="review-info-section">
+                <div class="review-info-row">
+                    <div class="review-info-label">
+                        <span>Contact</span>
+                        <span class="review-email-display"></span>
+                    </div>
+                    <button class="btn-change" onclick="goToStep(2)">Change</button>
+                </div>
+
+                <div class="review-info-row">
+                    <div class="review-info-label">
+                        <span>Ship to</span>
+                        <span class="review-address-display"></span>
+                    </div>
+                    <button class="btn-change" onclick="goToStep(2)">Change</button>
+                </div>
+
+                <div class="review-info-row">
+                    <div class="review-info-label">
+                        <span>Shipping Method</span>
+                        <span>J&T Express - $6.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Method Section -->
+            <div class="form-group-section">
+                <h3 class="section-heading">PAYMENT METHOD</h3>
+                
+                <div class="payment-methods">
+                    <label class="payment-option">
+                        <input type="radio" name="payment-review" value="gcash" checked>
+                        <span class="payment-label">
+                            <span>GCash</span>
+                            <span class="payment-logo payment-logo-gcash"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment-review" value="maya">
+                        <span class="payment-label">
+                            <span>Maya</span>
+                            <span class="payment-logo payment-logo-maya"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment-review" value="paypal">
+                        <span class="payment-label">
+                            <span>Paypal</span>
+                            <span class="payment-logo payment-logo-paypal"></span>
+                        </span>
+                    </label>
+
+                    <label class="payment-option">
+                        <input type="radio" name="payment-review" value="bank">
+                        <span class="payment-label">
+                            <span>Bank Transfer</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn-checkout-primary" onclick="submitOrder()">PAY NOW</button>
+            
+            <div class="form-footer">
+                <p class="return-link" onclick="goToStep(2)">« Return to previous</p>
+            </div>
+        </section>
+
+        <!-- Thank You Page (Step 4) -->
+        <section class="checkout-section thankyou-section">
+            <a href="./index.html" class="thankyou-logo-link">
+                <img src="./Product Mobile Assets-20251226T071926Z-3-001/Product Mobile Assets/top-logo-brown.png" alt="Glow Within" class="thankyou-logo">
+            </a>
+            
+            <div class="thankyou-card">
+                <h2 class="thankyou-title">Thank You For Your Order!</h2>
+                <p class="thankyou-subtitle">Your Oh Glow Ever Serum is almost on its way to you.</p>
+
+                <div class="order-info">
+                    <p class="order-number">Order Number: <strong>#MC1017</strong></p>
+                    <p class="order-note">Please keep this for your reference.</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script defer src="./script.js?v=5"></script>
+    <script>
+        // Step Navigation
+        function goToStep(step) {
+            const sections = document.querySelectorAll('.checkout-section');
+            sections.forEach(section => section.classList.remove('active-section'));
+            
+            // Show/hide header logo based on step
+            const header = document.querySelector('.checkout-header');
+            if (step === 4) {
+                header.style.display = 'none';
+            } else {
+                header.style.display = 'block';
+            }
+            
+            if (step === 1) {
+                document.querySelector('.cart-section').classList.add('active-section');
+            } else if (step === 2) {
+                document.querySelector('.form-section').classList.add('active-section');
+            } else if (step === 3) {
+                document.querySelector('.payment-section').classList.add('active-section');
+            } else if (step === 4) {
+                document.querySelector('.thankyou-section').classList.add('active-section');
+            }
+        }
+
+        // Proceed to Payment Review
+        function proceedToPayment() {
+            // Validate form fields
+            const email = document.getElementById('email').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const address = document.getElementById('address').value;
+            const apartment = document.getElementById('apartment').value;
+            const city = document.getElementById('city').value;
+            const province = document.getElementById('province').value;
+            const postalCode = document.getElementById('postalCode').value;
+            const phone = document.getElementById('phone').value;
+
+            if (!email || !firstName || !lastName || !address || !city || !province || !postalCode || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Get selected payment method
+            const paymentMethod = document.querySelector('input[name="payment"]:checked');
+            const paymentLabel = paymentMethod ? paymentMethod.parentElement.querySelector('.payment-label span:first-child').textContent : 'GCash';
+
+            // Build full address
+            const fullAddress = apartment 
+                ? `${address}, ${apartment}, ${city}, ${province} ${postalCode}`
+                : `${address}, ${city}, ${province} ${postalCode}`;
+
+            // Update payment review section
+            document.querySelector('.review-email-display').textContent = email;
+            document.querySelector('.review-address-display').textContent = fullAddress;
+
+            // Get current totals from information page
+            const qty = parseInt(document.querySelector('.qty-input').value);
+            const pricePerItem = 45;
+            const subtotal = qty * pricePerItem;
+            const shipping = 6;
+            const total = subtotal + shipping;
+
+            // Update payment section order summary with correct totals
+            const paymentSection = document.querySelector('.payment-section');
+            if (paymentSection) {
+                const paymentSubtotal = paymentSection.querySelector('.subtotal-value');
+                const paymentItemPrice = paymentSection.querySelector('.order-item-price');
+                const paymentTotal = paymentSection.querySelector('.total-value');
+                const paymentOrderTotal = paymentSection.querySelector('.order-total');
+
+                if (paymentSubtotal) paymentSubtotal.textContent = '$' + subtotal.toFixed(2);
+                if (paymentItemPrice) paymentItemPrice.textContent = '$' + subtotal.toFixed(2);
+                if (paymentTotal) paymentTotal.textContent = '$' + total.toFixed(2);
+                if (paymentOrderTotal) paymentOrderTotal.textContent = '$' + total.toFixed(2);
+            }
+
+            // Show payment review page
+            goToStep(3);
+        }
+
+        // Toggle Order Summary
+        function toggleOrderSummary() {
+            const activeSection = document.querySelector('.checkout-section.active-section');
+            if (!activeSection) return;
+            
+            const content = activeSection.querySelector('.order-summary-content');
+            const chevron = activeSection.querySelector('.chevron-icon');
+            
+            if (content && chevron) {
+                content.classList.toggle('show');
+                chevron.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+            }
+        }
+
+        // Submit Order
+        function submitOrder() {
+            // Hide header logo on thank you page
+            const header = document.querySelector('.checkout-header');
+            if (header) {
+                header.style.display = 'none';
+            }
+
+            // Show thank you page
+            goToStep(4);
+        }
+
+        // Quantity Controls
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart data from localStorage
+            const cartData = localStorage.getItem('cartProduct');
+            if (cartData) {
+                const product = JSON.parse(cartData);
+                
+                // Update cart display
+                const qtyInput = document.querySelector('.qty-input');
+                if (qtyInput) {
+                    qtyInput.value = product.quantity;
+                }
+                
+                // Update product name if different
+                const productName = document.querySelector('.cart-item-name');
+                if (productName) {
+                    productName.textContent = product.name;
+                }
+                
+                // Update order item name in order summary
+                const orderItemName = document.querySelector('.order-item-name');
+                if (orderItemName) {
+                    orderItemName.textContent = product.name;
+                }
+                
+                const orderItemQty = document.querySelector('.order-item-qty');
+                if (orderItemQty) {
+                    orderItemQty.textContent = `Qty: ${product.quantity}`;
+                }
+                
+                // Update totals
+                updateCartTotal();
+            }
+
+            const minusBtn = document.querySelector('.qty-btn.minus');
+            const plusBtn = document.querySelector('.qty-btn.plus');
+            const qtyInput = document.querySelector('.qty-input');
+
+            if (minusBtn) {
+                minusBtn.addEventListener('click', function() {
+                    let value = parseInt(qtyInput.value);
+                    if (value > 1) {
+                        qtyInput.value = value - 1;
+                        updateCartTotal();
+                    }
+                });
+            }
+
+            if (plusBtn) {
+                plusBtn.addEventListener('click', function() {
+                    let value = parseInt(qtyInput.value);
+                    qtyInput.value = value + 1;
+                    updateCartTotal();
+                });
+            }
+        });
+
+        function updateCartTotal() {
+            const qty = parseInt(document.querySelector('.qty-input').value);
+            const pricePerItem = 45;
+            const subtotal = qty * pricePerItem;
+            const shipping = 6;
+            const total = subtotal + shipping;
+
+            document.querySelector('.subtotal-amount').textContent = '$' + subtotal.toFixed(2);
+            document.querySelector('.cart-item-price').textContent = '$' + subtotal.toFixed(2);
+            
+            // Update order-item-price in order summary dropdown
+            const orderItemPrices = document.querySelectorAll('.order-item-price');
+            orderItemPrices.forEach(price => {
+                price.textContent = '$' + subtotal.toFixed(2);
+            });
+            
+            // Update subtotal in order summary if it exists
+            const orderSubtotals = document.querySelectorAll('.subtotal-value');
+            orderSubtotals.forEach(subtotalEl => {
+                subtotalEl.textContent = '$' + subtotal.toFixed(2);
+            });
+            
+            // Update total in order summary
+            const orderTotals = document.querySelectorAll('.total-value');
+            orderTotals.forEach(totalEl => {
+                totalEl.textContent = '$' + total.toFixed(2);
+            });
+
+            // Update order total header
+            const orderTotalHeaders = document.querySelectorAll('.order-total');
+            orderTotalHeaders.forEach(header => {
+                header.textContent = '$' + total.toFixed(2);
+            });
+        }
+
+        // Close button
+        const closeBtn = document.querySelector('.btn-close');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                window.location.href = './product.html';
+            });
+        }
+    </script>
+
+</body>
+</html>

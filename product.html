@@ -92,7 +92,7 @@
         </div>
 
         <div class="btn-product">
-         <a href="#" class="product-btn">Add to Cart</a>
+         <button onclick="addToCart()" class="product-btn">Add to Cart</button>
         </div>
         </div>
 
@@ -200,7 +200,7 @@
 
 
 
-       
+       <section class="section-reviews product-page">
         <div class="divider">
         <h2 class="review-header">Customer Reviews</h2>
         
@@ -335,6 +335,33 @@
 
 
     </div>    
+
+    <script>
+        // Update product price based on quantity
+        function updateProductPrice() {
+            const quantity = parseInt(document.querySelector('.quantity-input.product-page').value);
+            const pricePerItem = 45.00;
+            const totalPrice = quantity * pricePerItem;
+            document.querySelector('.product-price.product-page').textContent = '$' + totalPrice.toFixed(2);
+        }
+
+        // Add to Cart functionality
+        function addToCart() {
+            const quantity = document.querySelector('.quantity-input.product-page').value;
+            const productData = {
+                name: 'Oh Glow Ever Serum',
+                price: 45.00,
+                quantity: parseInt(quantity),
+                image: './Product Mobile Assets-20251226T071926Z-3-001/Product Mobile Assets/oh glow ever serum.png'
+            };
+            
+            // Store in localStorage
+            localStorage.setItem('cartProduct', JSON.stringify(productData));
+            
+            // Navigate to checkout
+            window.location.href = './checkout.html';
+        }
+    </script>
 
     </body>
 </html>

@@ -109,12 +109,18 @@ if (minusBtn && plusBtn && quantityInput) {
         let currentValue = parseInt(quantityInput.value);
         if (currentValue > 1) {
             quantityInput.value = currentValue - 1;
+            if (typeof updateProductPrice === 'function') {
+                updateProductPrice();
+            }
         }
     });
 
     plusBtn.addEventListener('click', () => {
         let currentValue = parseInt(quantityInput.value);
         quantityInput.value = currentValue + 1;
+        if (typeof updateProductPrice === 'function') {
+            updateProductPrice();
+        }
     });
 }
 
@@ -441,3 +447,119 @@ if (sortDropdown) {
         console.log('Sorted by:', sortValue);
     });
 }
+
+// ========== CART MODAL FUNCTIONS ==========
+
+// Proceed to checkout from cart modal
+function proceedToCheckout() {
+    window.location.href = './checkout.html';
+}
+
+// Open cart modal
+function openCart() {
+    const modal = document.getElementById('cartModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        updateCartDisplay();
+    }
+}
+
+// Close cart modal
+function closeCart() {
+    const modal = document.getElementById('cartModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Update cart display
+function updateCartDisplay() {
+    const cartData = localStorage.getItem('cartProduct');
+    const modalBody = document.getElementById('cartModalBody');
+    const modalFooter = document.getElementById('cartModalFooter');
+    const cartCount = document.getElementById('cartCount');
+    const subtotalElement = document.getElementById('cartSubtotal');
+    
+    if (cartData) {
+        const product = JSON.parse(cartData);
+        const subtotal = product.price * product.quantity;
+        
+        // Update cart count
+        if (cartCount) {
+            cartCount.textContent = product.quantity;
+            cartCount.style.display = 'flex';
+        }
+        
+        // Update modal body with product
+        if (modalBody) {
+            modalBody.innerHTML = `
+                <div class="cart-item-modal">
+                    <img src="${product.image}" alt="${product.name}" class="cart-item-img-modal">
+                    <div class="cart-item-details">
+                        <h3 class="cart-item-name-modal">${product.name}</h3>
+                        <div class="cart-item-quantity-modal">
+                            <button class="cart-qty-btn" onclick="updateCartQuantity(-1)">−</button>
+                            <span class="cart-qty-value">${product.quantity}</span>
+                            <button class="cart-qty-btn" onclick="updateCartQuantity(1)">+</button>
+                        </div>
+                    </div>
+                    <p class="cart-item-price-modal">$${subtotal.toFixed(2)}</p>
+                </div>
+            `;
+        }
+        
+        // Update subtotal
+        if (subtotalElement) {
+            subtotalElement.textContent = '$' + subtotal.toFixed(2);
+        }
+        
+        // Show footer
+        if (modalFooter) {
+            modalFooter.style.display = 'block';
+        }
+    } else {
+        // Empty cart
+        if (cartCount) {
+            cartCount.style.display = 'none';
+        }
+        
+        if (modalBody) {
+            modalBody.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+        }
+        
+        if (modalFooter) {
+            modalFooter.style.display = 'none';
+        }
+    }
+}
+
+// Update cart quantity
+function updateCartQuantity(change) {
+    const cartData = localStorage.getItem('cartProduct');
+    if (cartData) {
+        const product = JSON.parse(cartData);
+        product.quantity = Math.max(1, product.quantity + change);
+        localStorage.setItem('cartProduct', JSON.stringify(product));
+        updateCartDisplay();
+    }
+}
+
+// Close modal when clicking outside
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('cartModal');
+    if (event.target === modal) {
+        closeCart();
+    }
+});
+
+// Update cart count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const cartData = localStorage.getItem('cartProduct');
+    const cartCount = document.getElementById('cartCount');
+    
+    if (cartData && cartCount) {
+        const product = JSON.parse(cartData);
+        cartCount.textContent = product.quantity;
+        cartCount.style.display = 'flex';
+    }
+});
