@@ -99,30 +99,80 @@ if (resultsCarousel) {
     updateResultsArrows();
 }
 
-// Quantity Selector Buttons
-const quantityInput = document.querySelector('.quantity-input');
-const minusBtn = document.querySelector('.quantity-btn.minus');
-const plusBtn = document.querySelector('.quantity-btn.plus');
-
-if (minusBtn && plusBtn && quantityInput) {
-    minusBtn.addEventListener('click', () => {
-        let currentValue = parseInt(quantityInput.value);
-        if (currentValue > 1) {
-            quantityInput.value = currentValue - 1;
-            if (typeof updateProductPrice === 'function') {
-                updateProductPrice();
+// Quantity controls for both index.html and product.html
+document.addEventListener('DOMContentLoaded', function() {
+    // For index.html (uses ID)
+    const indexQuantityInput = document.getElementById('quantity-input');
+    const indexMinusBtn = document.querySelector('.quantity-btn.minus:not(.product-page)');
+    const indexPlusBtn = document.querySelector('.quantity-btn.plus:not(.product-page)');
+    const indexPriceElement = document.querySelector('.product-price:not(.product-page)');
+    
+    // For product.html (uses .product-page class)
+    const productQuantityInput = document.querySelector('.quantity-input.product-page');
+    const productMinusBtn = document.querySelector('.quantity-btn.minus.product-page');
+    const productPlusBtn = document.querySelector('.quantity-btn.plus.product-page');
+    const productPriceElement = document.querySelector('.product-price.product-page');
+    
+    const basePrice = 45.00;
+    
+    // Index page quantity controls
+    if (indexQuantityInput && indexMinusBtn && indexPlusBtn) {
+        function updateIndexPrice() {
+            if (indexQuantityInput && indexPriceElement) {
+                const quantity = parseInt(indexQuantityInput.value) || 1;
+                const totalPrice = basePrice * quantity;
+                indexPriceElement.textContent = '$' + totalPrice.toFixed(2);
             }
         }
-    });
-
-    plusBtn.addEventListener('click', () => {
-        let currentValue = parseInt(quantityInput.value);
-        quantityInput.value = currentValue + 1;
-        if (typeof updateProductPrice === 'function') {
-            updateProductPrice();
+        
+        indexMinusBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const currentValue = parseInt(indexQuantityInput.value) || 1;
+            if (currentValue > 1) {
+                indexQuantityInput.value = currentValue - 1;
+                updateIndexPrice();
+            }
+        });
+        
+        indexPlusBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const currentValue = parseInt(indexQuantityInput.value) || 1;
+            indexQuantityInput.value = currentValue + 1;
+            updateIndexPrice();
+        });
+        
+        indexQuantityInput.addEventListener('input', updateIndexPrice);
+    }
+    
+    // Product page quantity controls
+    if (productQuantityInput && productMinusBtn && productPlusBtn) {
+        function updateProductPrice() {
+            if (productQuantityInput && productPriceElement) {
+                const quantity = parseInt(productQuantityInput.value) || 1;
+                const totalPrice = basePrice * quantity;
+                productPriceElement.textContent = '$' + totalPrice.toFixed(2);
+            }
         }
-    });
-}
+        
+        productMinusBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const currentValue = parseInt(productQuantityInput.value) || 1;
+            if (currentValue > 1) {
+                productQuantityInput.value = currentValue - 1;
+                updateProductPrice();
+            }
+        });
+        
+        productPlusBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const currentValue = parseInt(productQuantityInput.value) || 1;
+            productQuantityInput.value = currentValue + 1;
+            updateProductPrice();
+        });
+        
+        productQuantityInput.addEventListener('input', updateProductPrice);
+    }
+});
 
 // Product Image Gallery
 const mainProductImg = document.querySelector('.main-product-img');
@@ -452,15 +502,24 @@ if (sortDropdown) {
 
 // Proceed to checkout from cart modal
 function proceedToCheckout() {
-    window.location.href = './checkout.html';
+    window.location.href = './checkout.html?step=2';
 }
 
 // Open cart modal
 function openCart() {
-    const modal = document.getElementById('cartModal');
-    if (modal) {
-        modal.style.display = 'flex';
-        updateCartDisplay();
+    // Check if mobile (width < 1000px)
+    const isMobile = window.innerWidth < 1000;
+    
+    if (isMobile) {
+        // On mobile, redirect to checkout page at cart step
+        window.location.href = './checkout.html?step=1';
+    } else {
+        // On desktop, show cart modal
+        const modal = document.getElementById('cartModal');
+        if (modal) {
+            modal.classList.add('active');
+            updateCartDisplay();
+        }
     }
 }
 
@@ -468,7 +527,7 @@ function openCart() {
 function closeCart() {
     const modal = document.getElementById('cartModal');
     if (modal) {
-        modal.style.display = 'none';
+        modal.classList.remove('active');
     }
 }
 
@@ -482,7 +541,7 @@ function updateCartDisplay() {
     
     if (cartData) {
         const product = JSON.parse(cartData);
-        const subtotal = product.price * product.quantity;
+        const itemTotal = product.price * product.quantity;
         
         // Update cart count
         if (cartCount) {
@@ -495,22 +554,38 @@ function updateCartDisplay() {
             modalBody.innerHTML = `
                 <div class="cart-item-modal">
                     <img src="${product.image}" alt="${product.name}" class="cart-item-img-modal">
-                    <div class="cart-item-details">
-                        <h3 class="cart-item-name-modal">${product.name}</h3>
-                        <div class="cart-item-quantity-modal">
-                            <button class="cart-qty-btn" onclick="updateCartQuantity(-1)">−</button>
-                            <span class="cart-qty-value">${product.quantity}</span>
-                            <button class="cart-qty-btn" onclick="updateCartQuantity(1)">+</button>
+                    <div class="cart-item-info">
+                        <div class="cart-item-header">
+                            <h3 class="cart-item-name-modal">${product.name}</h3>
+                            <button class="cart-remove-btn" onclick="removeCartItem()" aria-label="Remove item">&times;</button>
+                        </div>
+                        <div class="cart-item-bottom">
+                            <div class="cart-item-quantity-modal">
+                                <button class="cart-qty-btn cart-qty-minus" data-change="-1">−</button>
+                                <span class="cart-qty-value">${product.quantity}</span>
+                                <button class="cart-qty-btn cart-qty-plus" data-change="1">+</button>
+                            </div>
+                            <p class="cart-item-price-modal">$${itemTotal.toFixed(2)}</p>
                         </div>
                     </div>
-                    <p class="cart-item-price-modal">$${subtotal.toFixed(2)}</p>
                 </div>
             `;
+            
+            // Add event listeners to quantity buttons
+            const minusBtn = modalBody.querySelector('.cart-qty-minus');
+            const plusBtn = modalBody.querySelector('.cart-qty-plus');
+            
+            if (minusBtn) {
+                minusBtn.addEventListener('click', () => updateCartQuantity(-1));
+            }
+            if (plusBtn) {
+                plusBtn.addEventListener('click', () => updateCartQuantity(1));
+            }
         }
         
         // Update subtotal
         if (subtotalElement) {
-            subtotalElement.textContent = '$' + subtotal.toFixed(2);
+            subtotalElement.textContent = '$' + itemTotal.toFixed(2);
         }
         
         // Show footer
@@ -538,10 +613,35 @@ function updateCartQuantity(change) {
     const cartData = localStorage.getItem('cartProduct');
     if (cartData) {
         const product = JSON.parse(cartData);
-        product.quantity = Math.max(1, product.quantity + change);
+        const newQuantity = Math.max(1, product.quantity + change);
+        product.quantity = newQuantity;
         localStorage.setItem('cartProduct', JSON.stringify(product));
         updateCartDisplay();
     }
+}
+
+// Add to cart function for index.html
+function addToCart() {
+    // Get quantity from the page if it exists
+    const quantityInput = document.getElementById('quantity-input') || document.querySelector('.quantity-input');
+    const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+    
+    const product = {
+        name: 'Oh Glow Ever Serum',
+        price: 45.00,
+        quantity: quantity,
+        image: './checkout page/product-image-main.jpg'
+    };
+    
+    localStorage.setItem('cartProduct', JSON.stringify(product));
+    openCart();
+}
+
+// Remove item from cart
+function removeCartItem() {
+    localStorage.removeItem('cartProduct');
+    updateCartDisplay();
+    closeCart();
 }
 
 // Close modal when clicking outside
@@ -561,5 +661,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const product = JSON.parse(cartData);
         cartCount.textContent = product.quantity;
         cartCount.style.display = 'flex';
+    }
+    
+    // Check if cart should be opened on return
+    const shouldOpenCart = localStorage.getItem('openCartOnReturn');
+    if (shouldOpenCart === 'true') {
+        localStorage.removeItem('openCartOnReturn');
+        // Open cart after a small delay to ensure page is fully loaded
+        setTimeout(() => {
+            openCart();
+        }, 100);
     }
 });

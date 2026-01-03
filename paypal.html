@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal Payment - Glow Within</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Alef', sans-serif;
+            font-size: 10px;
+        }
+
+        .paypal-payment-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0070BA 0%, #003087 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .paypal-container {
+            background: white;
+            border-radius: 1.6rem;
+            padding: 3rem 2.5rem;
+            max-width: 40rem;
+            width: 100%;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+        }
+
+        .paypal-logo {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .paypal-logo-text {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #0070BA;
+            letter-spacing: -0.05em;
+        }
+
+        .payment-info {
+            background: #F8F9FA;
+            padding: 2rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2.5rem;
+            display: block !important;
+        }
+
+        .payment-info-row {
+            display: grid !important;
+            grid-template-columns: auto 1fr !important;
+            gap: 2rem !important;
+            align-items: center !important;
+            margin-bottom: 1rem !important;
+            font-size: 1.4rem !important;
+        }
+
+        .payment-info-row:last-of-type {
+            margin-bottom: 0 !important;
+        }
+
+        .payment-info-label {
+            color: #6C757D !important;
+            font-weight: 400 !important;
+            white-space: nowrap !important;
+        }
+
+        .payment-info-value {
+            font-weight: 600 !important;
+            color: #212529 !important;
+            text-align: right !important;
+            overflow-wrap: break-word !important;
+            word-wrap: break-word !important;
+            hyphens: auto !important;
+        }
+
+        .payment-divider {
+            border: none !important;
+            border-top: 1.5px solid #DEE2E6 !important;
+            margin: 1.2rem 0 !important;
+            width: 100% !important;
+        }
+
+        .payment-total {
+            display: grid !important;
+            grid-template-columns: auto 1fr !important;
+            gap: 2rem !important;
+            align-items: center !important;
+            font-size: 1.8rem !important;
+            font-weight: 700 !important;
+            color: #212529 !important;
+            margin-top: 0.8rem !important;
+        }
+        
+        .payment-total span:first-child {
+            white-space: nowrap !important;
+            color: #212529 !important;
+        }
+        
+        .payment-total span:last-child {
+            text-align: right !important;
+            color: #0070BA !important;
+        }
+
+        .paypal-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group-paypal {
+            margin-bottom: 2rem;
+        }
+
+        .form-label-paypal {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .form-input-paypal {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.5rem;
+            border: 1.5px solid #CED4DA;
+            border-radius: 0.8rem;
+            font-family: 'Alef', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-input-paypal::placeholder {
+            color: #ADB5BD;
+        }
+
+        .form-input-paypal:focus {
+            outline: none;
+            border-color: #0070BA;
+            box-shadow: 0 0 0 0.3rem rgba(0, 112, 186, 0.15);
+        }
+
+        .btn-paypal-pay {
+            width: 100%;
+            padding: 1.5rem;
+            background: #0070BA;
+            color: white;
+            border: none;
+            border-radius: 0.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            transition: background 0.3s, transform 0.1s;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-paypal-pay:hover {
+            background: #003087;
+        }
+
+        .btn-paypal-pay:active {
+            transform: translateY(1px);
+        }
+
+        .btn-paypal-cancel {
+            width: 100%;
+            padding: 1.2rem;
+            background: transparent;
+            color: #6C757D;
+            border: 1.5px solid #DEE2E6;
+            border-radius: 0.8rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-paypal-cancel:hover {
+            background: #F8F9FA;
+            border-color: #ADB5BD;
+            color: #495057;
+        }
+
+        .security-note {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6C757D;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="paypal-payment-page">
+        <div class="paypal-container">
+            <div class="paypal-logo">
+                <div class="paypal-logo-text">PayPal</div>
+            </div>
+
+            <div class="payment-info">
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Merchant</span>
+                    <span class="payment-info-value">Glow Within</span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Product</span>
+                    <span class="payment-info-value" id="productName">Oh Glow Ever Serum</span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Quantity</span>
+                    <span class="payment-info-value" id="productQty">1</span>
+                </div>
+                <hr class="payment-divider">
+                <div class="payment-total">
+                    <span>Total Amount</span>
+                    <span id="totalAmount">$51.00</span>
+                </div>
+            </div>
+
+            <form class="paypal-form" id="paypalForm" onsubmit="processPayment(event)">
+                <div class="form-group-paypal">
+                    <label for="paypal-email" class="form-label-paypal">PayPal Email</label>
+                    <input type="email" id="paypal-email" class="form-input-paypal" placeholder="your@email.com" required>
+                </div>
+
+                <div class="form-group-paypal">
+                    <label for="paypal-password" class="form-label-paypal">PayPal Password</label>
+                    <input type="password" id="paypal-password" class="form-input-paypal" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn-paypal-pay">PAY NOW</button>
+                <button type="button" class="btn-paypal-cancel" onclick="cancelPayment()">CANCEL</button>
+            </form>
+
+            <div class="security-note">
+                🔒 Your payment is secured with PayPal
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load cart data from localStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const cartData = localStorage.getItem('cartProduct');
+            if (cartData) {
+                const product = JSON.parse(cartData);
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productQty').textContent = product.quantity;
+                
+                const subtotal = product.price * product.quantity;
+                const shipping = 6.00;
+                
+                // Check for applied discount
+                let discountAmount = 0;
+                const discountData = localStorage.getItem('appliedDiscount');
+                if (discountData) {
+                    const discount = JSON.parse(discountData);
+                    if (discount.type === 'percentage') {
+                        discountAmount = subtotal * (discount.value / 100);
+                    } else if (discount.type === 'fixed') {
+                        discountAmount = discount.value;
+                    }
+                }
+                
+                const total = subtotal - discountAmount + shipping;
+                document.getElementById('totalAmount').textContent = '$' + total.toFixed(2);
+            }
+        });
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            // Simulate payment processing
+            setTimeout(function() {
+                // Redirect to checkout success page
+                window.location.href = './checkout.html?payment=success';
+            }, 1000);
+        }
+
+        function cancelPayment() {
+            // Return to checkout payment page, replacing current history entry
+            window.location.replace('./checkout.html?step=3');
+        }
+    </script>
+</body>
+</html>

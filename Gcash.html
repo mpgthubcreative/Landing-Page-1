@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCash Payment - Glow Within</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Alef:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Alef', sans-serif;
+            font-size: 10px;
+        }
+
+        .gcash-payment-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #007DFE 0%, #0062CC 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .gcash-container {
+            background: white;
+            border-radius: 1.6rem;
+            padding: 3rem 2.5rem;
+            max-width: 40rem;
+            width: 100%;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+        }
+
+        .gcash-logo {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .gcash-logo-text {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #007DFE;
+            letter-spacing: -0.05em;
+        }
+
+        .gcash-container .payment-info {
+            background: #F8F9FA;
+            padding: 2rem 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2.5rem;
+            display: block !important;
+        }
+
+        .gcash-container .payment-info-row {
+            display: grid !important;
+            grid-template-columns: auto 1fr !important;
+            gap: 2rem !important;
+            align-items: center !important;
+            margin-bottom: 1.2rem !important;
+            font-size: 1.4rem !important;
+        }
+
+        .gcash-container .payment-info-row:last-of-type {
+            margin-bottom: 0 !important;
+        }
+
+        .gcash-container .payment-info-label {
+            color: #6C757D !important;
+            font-weight: 400 !important;
+            white-space: nowrap !important;
+        }
+
+        .gcash-container .payment-info-value {
+            font-weight: 600 !important;
+            color: #212529 !important;
+            text-align: right !important;
+            white-space: normal !important;
+        }
+
+        .gcash-container .payment-divider {
+            border: none !important;
+            border-top: 1.5px solid #DEE2E6 !important;
+            margin: 1.5rem 0 1rem 0 !important;
+            width: 100% !important;
+        }
+
+        .gcash-container .payment-total {
+            display: grid !important;
+            grid-template-columns: auto 1fr !important;
+            gap: 2rem !important;
+            align-items: center !important;
+            font-size: 1.8rem !important;
+            font-weight: 700 !important;
+            color: #212529 !important;
+        }
+        
+        .gcash-container .payment-total span:first-child {
+            white-space: nowrap !important;
+            color: #212529 !important;
+        }
+        
+        .gcash-container .payment-total span:last-child {
+            text-align: right !important;
+            color: #007DFE !important;
+        }
+
+        .gcash-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group-gcash {
+            margin-bottom: 2rem;
+        }
+
+        .form-label-gcash {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.02em;
+        }
+
+        .form-input-gcash {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            font-size: 1.5rem;
+            border: 1.5px solid #CED4DA;
+            border-radius: 0.8rem;
+            font-family: 'Alef', sans-serif;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-input-gcash::placeholder {
+            color: #ADB5BD;
+        }
+
+        .form-input-gcash:focus {
+            outline: none;
+            border-color: #007DFE;
+            box-shadow: 0 0 0 0.3rem rgba(0, 125, 254, 0.15);
+        }
+
+        .btn-gcash-pay {
+            width: 100%;
+            padding: 1.5rem;
+            background: #007DFE;
+            color: white;
+            border: none;
+            border-radius: 0.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            transition: background 0.3s, transform 0.1s;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-gcash-pay:hover {
+            background: #0062CC;
+        }
+
+        .btn-gcash-pay:active {
+            transform: translateY(1px);
+        }
+
+        .btn-gcash-cancel {
+            width: 100%;
+            padding: 1.2rem;
+            background: transparent;
+            color: #6C757D;
+            border: 1.5px solid #DEE2E6;
+            border-radius: 0.8rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Alef', sans-serif;
+            margin-top: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-gcash-cancel:hover {
+            background: #F8F9FA;
+            border-color: #ADB5BD;
+            color: #495057;
+        }
+
+        .security-note {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6C757D;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="gcash-payment-page">
+        <div class="gcash-container">
+            <div class="gcash-logo">
+                <svg width="120" height="40" viewBox="0 0 120 40" fill="none">
+                    <text x="10" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#007DFE">GCash</text>
+                </svg>
+            </div>
+
+            <div class="payment-info">
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Merchant</span>
+                    <span class="payment-info-value">Glow Within</span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Product</span>
+                    <span class="payment-info-value" id="productName">Oh Glow Ever Serum</span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Quantity</span>
+                    <span class="payment-info-value" id="productQty">1</span>
+                </div>
+                <hr class="payment-divider">
+                <div class="payment-total">
+                    <span>Total Amount</span>
+                    <span id="totalAmount">$51.00</span>
+                </div>
+            </div>
+
+            <form class="gcash-form" id="gcashForm" onsubmit="processPayment(event)">
+                <div class="form-group-gcash">
+                    <label for="gcash-number" class="form-label-gcash">GCash Mobile Number</label>
+                    <input type="tel" id="gcash-number" class="form-input-gcash" placeholder="09XX XXX XXXX" required pattern="[0-9]{11}" maxlength="11">
+                </div>
+
+                <div class="form-group-gcash">
+                    <label for="gcash-pin" class="form-label-gcash">MPIN</label>
+                    <input type="password" id="gcash-pin" class="form-input-gcash" placeholder="Enter your 4-digit MPIN" required pattern="[0-9]{4}" maxlength="4">
+                </div>
+
+                <button type="submit" class="btn-gcash-pay">PAY NOW</button>
+                <button type="button" class="btn-gcash-cancel" onclick="cancelPayment()">CANCEL</button>
+            </form>
+
+            <p class="security-note">🔒 Your payment is secured with GCash</p>
+        </div>
+    </div>
+
+    <script>
+        // Load payment information from localStorage
+        window.addEventListener('DOMContentLoaded', function() {
+            const cartData = localStorage.getItem('cartProduct');
+            if (cartData) {
+                const product = JSON.parse(cartData);
+                const subtotal = product.price * product.quantity;
+                const shipping = 6.00;
+                
+                // Check for applied discount
+                let discountAmount = 0;
+                const discountData = localStorage.getItem('appliedDiscount');
+                if (discountData) {
+                    const discount = JSON.parse(discountData);
+                    if (discount.type === 'percentage') {
+                        discountAmount = subtotal * (discount.value / 100);
+                    } else if (discount.type === 'fixed') {
+                        discountAmount = discount.value;
+                    }
+                }
+                
+                const total = subtotal - discountAmount + shipping;
+
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productQty').textContent = product.quantity;
+                document.getElementById('totalAmount').textContent = '$' + total.toFixed(2);
+            }
+        });
+
+        function processPayment(event) {
+            event.preventDefault();
+            
+            const mobileNumber = document.getElementById('gcash-number').value;
+            const pin = document.getElementById('gcash-pin').value;
+
+            // Mock payment processing
+            if (mobileNumber && pin.length === 4) {
+                // Simulate payment processing
+                alert('Payment processing...');
+                
+                // Redirect to checkout success page after 1 second
+                setTimeout(function() {
+                    window.location.href = './checkout.html?payment=success';
+                }, 1000);
+            }
+        }
+
+        function cancelPayment() {
+            // Return to checkout payment page, replacing current history entry
+            window.location.replace('./checkout.html?step=3');
+        }
+    </script>
+</body>
+</html>
