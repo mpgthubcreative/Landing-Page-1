@@ -530,7 +530,17 @@
 
         // Proceed to Payment Review
         function proceedToPayment() {
-            // Validate form fields
+            // Get form element
+            const form = document.getElementById('checkoutForm');
+            
+            // Check if form is valid using HTML5 validation
+            if (!form.checkValidity()) {
+                // This will trigger the browser's native validation messages
+                form.reportValidity();
+                return;
+            }
+            
+            // Get form values
             const email = document.getElementById('email').value;
             const firstName = document.getElementById('firstName').value;
             const lastName = document.getElementById('lastName').value;
@@ -541,14 +551,9 @@
             const postalCode = document.getElementById('postalCode').value;
             const phone = document.getElementById('phone').value;
 
-            if (!email || !firstName || !lastName || !address || !city || !province || !postalCode || !phone) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-
             // Get selected payment method
             const paymentMethod = document.querySelector('input[name="payment"]:checked');
-            const paymentLabel = paymentMethod ? paymentMethod.parentElement.querySelector('.payment-label span:first-child').textContent : 'GCash';
+            const paymentLabel = paymentMethod ? paymentMethod.value : 'gcash';
 
             // Build full address
             const fullAddress = apartment 
@@ -588,6 +593,7 @@
             document.getElementById('hidden-product-name').value = 'Oh Glow Ever Serum';
             document.getElementById('hidden-quantity').value = qty;
             document.getElementById('hidden-subtotal').value = subtotal.toFixed(2);
+            document.getElementById('hidden-shipping').value = shipping.toFixed(2);
             document.getElementById('hidden-total').value = total.toFixed(2);
             document.getElementById('hidden-address').value = fullAddress;
             document.getElementById('hidden-payment-method').value = paymentLabel;
@@ -626,10 +632,36 @@
 
         // Submit Order
         async function submitOrder() {
+            // Get the form
+            const form = document.getElementById('checkoutForm');
+            
             // Check which payment method is selected
             const selectedPayment = document.querySelector('input[name="payment-review"]:checked');
             
-            if (selectedPayment) {
+            if (!selectedPayment) {
+                alert('Please select a payment method.');
+                return;
+            }
+            
+            // Populate payment method hidden field with the selected option
+            document.getElementById('hidden-payment-method').value = selectedPayment.value;
+            
+            // Submit form to Netlify first
+            try {
+                const formData = new FormData(form);
+                
+                const response = await fetch('/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams(formData).toString()
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Form submission failed');
+                }
+                
+                console.log('Form submitted successfully to Netlify');
+                
                 // Save discount info to localStorage for payment pages
                 if (appliedDiscount.code) {
                     localStorage.setItem('appliedDiscount', JSON.stringify(appliedDiscount));
@@ -637,46 +669,19 @@
                     localStorage.removeItem('appliedDiscount');
                 }
                 
-                // Redirect to respective payment page based on selection
+                // After successful form submission, redirect to payment page
                 // MOCK PAYMENT PAGES (for testing) - For real integration, see PAYMENT_INTEGRATION.md
-                // Using replace() to avoid adding payment pages to browser history
                 
                 if (selectedPayment.value === 'gcash') {
-                    window.location.replace('./gcash.html');
-                    return;
+                    window.location.href = './gcash.html';
                 } else if (selectedPayment.value === 'maya') {
-                    window.location.replace('./paymaya.html');
-                    return;
+                    window.location.href = './paymaya.html';
                 } else if (selectedPayment.value === 'paypal') {
-                    window.location.replace('./paypal.html');
-                    return;
+                    window.location.href = './paypal.html';
                 } else if (selectedPayment.value === 'bank') {
-                    window.location.replace('./bpi.html');
-                    return;
+                    window.location.href = './bpi.html';
                 }
-            }
-
-            // Get the form
-            const form = document.getElementById('checkoutForm');
-            
-            // Submit form to Netlify
-            try {
-                const formData = new FormData(form);
                 
-                await fetch('/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams(formData).toString()
-                });
-                
-                // Hide header logo on thank you page
-                const header = document.querySelector('.checkout-header');
-                if (header) {
-                    header.style.display = 'none';
-                }
-
-                // Show thank you page
-                goToStep(4);
             } catch (error) {
                 console.error('Form submission error:', error);
                 alert('There was an error submitting your order. Please try again.');
